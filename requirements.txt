@@ -52,3 +52,4 @@ tzdata==2025.2
 urllib3==2.5.0
 uvicorn==0.35.0
 watchdog==6.0.0
+email-validator==2.1.1
