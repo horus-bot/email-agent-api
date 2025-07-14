@@ -33,16 +33,17 @@ class SubmitReportRequest(BaseModel):
     sendEmail: bool
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(request: ChatRequest):
-    session_id = request.session_id or str(uuid4())
-    user_message = request.user_message
-
-    if session_id not in chat_sessions:
+    
+    session_id = request.session_id
+    if not session_id or session_id not in chat_sessions:
+        session_id = str(uuid4())
         chat_sessions[session_id] = []
 
+    user_message = request.user_message
     chat_sessions[session_id].append({"role": "user", "content": user_message})
     try:
         reply = chatbot(chat_sessions[session_id])
