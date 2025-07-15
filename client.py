@@ -5,9 +5,12 @@ def chatbot(messages, systemprompt=None):
     apikey = load_api_key()
     client = Groq(api_key=apikey)
 
-    # Optional: add system prompt at the beginning if needed
-    if systemprompt:
-        messages.insert(0, {"role": "system", "content": systemprompt})
+    # Default system prompt if none provided
+    if systemprompt is None:
+        systemprompt = "You are a helpful assistant.your job is to gather information from the user about the network problem , you will answer in short and concise manner"
+
+    # Add system prompt at the beginning
+    messages.insert(0, {"role": "system", "content": systemprompt})
 
     completion = client.chat.completions.create(
         model="llama3-70b-8192",
@@ -22,12 +25,13 @@ def chatbot2(user_message: str, systemprompt: str = None):
     apikey = load_api_key()
     client = Groq(api_key=apikey)
 
-    messages = []
+    if systemprompt is None:
+        systemprompt = "You are a helpful assistant.that will make a summary of the chat history and list all the important information that the user has provided related to the network problem"
 
-    if systemprompt:
-        messages.append({"role": "system", "content": systemprompt})
-
-    messages.append({"role": "user", "content": user_message})
+    messages = [
+        {"role": "system", "content": systemprompt},
+        {"role": "user", "content": user_message}
+    ]
 
     completion = client.chat.completions.create(
         model="llama3-70b-8192",
