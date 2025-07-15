@@ -7,7 +7,7 @@ def chatbot(messages, systemprompt=None):
 
     # Default system prompt if none provided
     if systemprompt is None:
-        systemprompt = "You are a helpful assistant.your job is to gather information from the user about the network problem , you will answer in short and concise manner"
+        systemprompt = "You are a helpful assistant.your job is to gather information from the user about the network problem , you will answer in short and concise manner and after you have gathered enough information you will ask the user to raise the query and press the send email button make sure u dont ask more than 5 questions"
 
     # Add system prompt at the beginning
     messages.insert(0, {"role": "system", "content": systemprompt})
